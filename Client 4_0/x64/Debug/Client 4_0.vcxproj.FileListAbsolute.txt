@@ -1,0 +1,10 @@
+C:\Users\khabi\OneDrive\Рабочий стол\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.AssemblyReference.cache
+C:\Users\khabi\OneDrive\Рабочий стол\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\khabi\OneDrive\Рабочий стол\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client40.MyForm.resources
+C:\Users\khabi\OneDrive\Рабочий стол\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.GenerateResource.cache
+C:\Users\khabi\OneDrive\Рабочий стол\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.exe
+C:\Папки рабочего стола\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.AssemblyReference.cache
+C:\Папки рабочего стола\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.SuggestedBindingRedirects.cache
+C:\Папки рабочего стола\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client40.MyForm.resources
+C:\Папки рабочего стола\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.vcxproj.GenerateResource.cache
+C:\Папки рабочего стола\Сети и телекоммуникации\Курсовая\Client 4_0\x64\Debug\Client 4_0.exe

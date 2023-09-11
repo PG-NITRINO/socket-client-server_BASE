@@ -1,0 +1,147 @@
+#include <string>
+#include "Socket.h"
+#include "MyForm.h"
+
+namespace Client40 {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	/// <summary>
+	/// Сводка для MyForm
+	/// </summary>
+	public ref class MyForm : public System::Windows::Forms::Form
+	{
+	public:
+		MyForm(void)
+		{
+			InitializeComponent();
+			this->ClientSize = System::Drawing::Size(500, 500);
+			generate();
+			//
+			//TODO: добавьте код конструктора
+			//
+		}
+
+	protected:
+		/// <summary>
+		/// Освободить все используемые ресурсы.
+		/// </summary>
+		~MyForm()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+
+	private:
+		/// <summary>
+		/// Обязательная переменная конструктора.
+		/// </summary>
+		System::ComponentModel::Container^ components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Требуемый метод для поддержки конструктора — не изменяйте 
+		/// содержимое этого метода с помощью редактора кода.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->SuspendLayout();
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(278, 244);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->ResumeLayout(false);
+
+		}
+#pragma endregion
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+
+	private:
+		System::Windows::Forms::Button^ button_Connect;
+		System::Windows::Forms::Label^ label_Connect;
+		System::Windows::Forms::TextBox^ textBox_Info;
+
+	private:
+		void generate()
+		{
+			/* Создаём объекты */
+			this->button_Connect = gcnew System::Windows::Forms::Button();
+			this->label_Connect = gcnew System::Windows::Forms::Label();
+			this->textBox_Info = gcnew System::Windows::Forms::TextBox();
+
+
+			/* Присостанавливаем на время изменений*/
+			this->button_Connect->SuspendLayout();
+			this->label_Connect->SuspendLayout();
+			this->textBox_Info->SuspendLayout();
+
+
+			/* button_Connect */
+			this->button_Connect->Text = "Connect server";
+			this->button_Connect->Location = System::Drawing::Point(50, 50);
+			this->button_Connect->Name = "button_Connect";
+			this->button_Connect->Size = System::Drawing::Size(100, 50);
+			this->button_Connect->TabIndex = 0;
+			this->button_Connect->TabStop = false;
+
+			this->button_Connect->Click += gcnew System::EventHandler(this, &MyForm::button_Connect_Click);  // Подключение к серверу
+
+
+			/* label_Connect */
+			this->label_Connect->Font = gcnew System::Drawing::Font("Times New Roman", 12, ((System::Drawing::FontStyle)((System::Drawing::FontStyle::Regular))));
+			this->label_Connect->Margin = System::Windows::Forms::Padding(0, 0, 0, 0);
+			this->label_Connect->MaximumSize = System::Drawing::Size((int)(this->button_Connect->Size.Width), (int)(this->button_Connect->Size.Height));
+			this->label_Connect->Name = "label_Connect";
+			this->label_Connect->Size = System::Drawing::Size((int)(this->button_Connect->Size.Width), (int)(this->button_Connect->Size.Height));
+			this->label_Connect->Location = System::Drawing::Point((int)(this->button_Connect->Location.X + this->button_Connect->Size.Width + 20), (int)(this->button_Connect->Location.Y));
+			this->label_Connect->TabIndex = 4;
+			this->label_Connect->Text = "Not connection";
+			this->label_Connect->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+
+
+			/* textBox_Info */
+			this->textBox_Info->ReadOnly = true;
+			this->textBox_Info->AcceptsReturn = true;
+			this->textBox_Info->AcceptsTab = true;
+			this->textBox_Info->Multiline = true;
+			this->textBox_Info->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
+			this->textBox_Info->Location = System::Drawing::Point((int)(this->button_Connect->Location.X), (int)(this->button_Connect->Location.Y + this->button_Connect->Size.Height + 20));
+			this->textBox_Info->Size = System::Drawing::Size((int)(this->label_Connect->Location.X + this->label_Connect->Size.Width - this->button_Connect->Location.X), (int)(this->button_Connect->Size.Height * 2));
+			this->textBox_Info->Text = "Information:\n";
+
+			/* Добавление в форму */
+			this->Controls->Add(this->button_Connect);
+			this->Controls->Add(this->label_Connect);
+			this->Controls->Add(this->textBox_Info);
+
+
+			/* Все изменения внесены - убираем остановку */
+			this->button_Connect->ResumeLayout(false);
+			this->label_Connect->ResumeLayout(false);
+			this->textBox_Info->ResumeLayout(false);
+		}
+
+	private: System::Void button_Connect_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		ConnectToServer();
+	}
+
+	public: void SetText_In_TextBoxInfo(System::String^ text)
+	{
+		this->textBox_Info->Text = "Information:\n" + text;
+	}
+	};
+}

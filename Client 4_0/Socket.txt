@@ -1,0 +1,143 @@
+#pragma once
+#define WIN32_LEAN_AND_MEAN
+
+#ifndef WinSockOn
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
+//#include <stdlib.h>
+//#include <stdio.h>
+
+//#include <iostream>
+
+// Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
+#pragma comment (lib, "Ws2_32.lib")
+#pragma comment (lib, "Mswsock.lib")
+#pragma comment (lib, "AdvApi32.lib")
+
+
+#define DEFAULT_BUFLEN 512
+#define DEFAULT_PORT "9034"
+
+/* Моё */
+#include "MyForm.h"
+
+SOCKET ConnectToServer(Client40::MyForm^ form)
+{
+    //WSADATA wsaData;
+
+    SOCKET ConnectSocket = INVALID_SOCKET;
+    struct addrinfo* result = NULL,
+        * ptr = NULL,
+        hints;
+    const char* sendbuf = "this is a test string\r\n";
+    char recvbuf[DEFAULT_BUFLEN];
+    int iResult;
+    int recvbuflen = DEFAULT_BUFLEN;
+
+    // Initialize Winsock
+    /*iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (iResult != 0) {
+        form->SetText_In_TextBoxInfo("WSAStartup failed with error: " + iResult + "\n\r");
+        //printf("WSAStartup failed with error: %d\n", iResult);
+        return 1;
+    }*/
+
+    ZeroMemory(&hints, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    // Resolve the server address and port
+    iResult = getaddrinfo("localhost", DEFAULT_PORT, &hints, &result);
+    if (iResult != 0) {
+        form->SetText_In_TextBoxInfo("getaddrinfo failed with error: " + iResult + "\r\n");
+        //printf("getaddrinfo failed with error: %d\n", iResult);
+        WSACleanup();
+        return INVALID_SOCKET;
+    }
+
+    // Attempt to connect to an address until one succeeds
+    for (ptr = result; ptr != NULL; ptr = ptr->ai_next) {
+
+        // Create a SOCKET for connecting to server
+        ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
+            ptr->ai_protocol);
+        if (ConnectSocket == INVALID_SOCKET) {
+            form->SetText_In_TextBoxInfo("socket failed with error: " + WSAGetLastError() + "\r\n");
+            //printf("socket failed with error: %ld\n", WSAGetLastError());
+            WSACleanup();
+            return INVALID_SOCKET;
+        }
+
+        // Connect to server.
+        iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        if (iResult == SOCKET_ERROR) {
+            closesocket(ConnectSocket);
+            ConnectSocket = INVALID_SOCKET;
+            continue;
+        }
+        break;
+    }
+
+    freeaddrinfo(result);
+
+    if (ConnectSocket == INVALID_SOCKET) {
+        form->SetText_In_TextBoxInfo("Unable to connect to server!\r\n");
+        //printf("Unable to connect to server!\n");
+        WSACleanup();
+        return INVALID_SOCKET;
+    }
+
+    /* Удалось подключиться к серверу */
+    form->SetText_In_LabelConnect("Connect to server");
+
+    return ConnectSocket;
+//Обработка сообщений
+    /*
+    bool flag = true;
+    char ch;
+    // Receive until the peer closes the connection
+    do {
+        // Send an initial buffer
+        iResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
+        if (iResult == SOCKET_ERROR) {
+            form->SetText_In_TextBoxInfo("send failed with error: " + WSAGetLastError() + "\n\r");
+            //printf("send failed with error: %d\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+
+        form->SetText_In_TextBoxInfo("Bytes Sent: " + iResult + "\n\r");
+        //printf("Bytes Sent: %ld\n", iResult);
+
+        form->SetText_In_TextBoxInfo("Client beetwen send and recv\n\r");
+        //std::cout << "Client beetwen send and recv\n";
+
+        iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+        if (iResult > 0)
+            form->SetText_In_TextBoxInfo("Bytes received: " + iResult + "\n\r");
+            //printf("Bytes received: %d\n", iResult);
+        else if (iResult == 0)
+            form->SetText_In_TextBoxInfo("Connection closed\n\r");
+            //printf("Connection closed\n");
+        else
+            form->SetText_In_TextBoxInfo("recv failed with error: " + WSAGetLastError() + "\n\r");
+            //printf("recv failed with error: %d\n", WSAGetLastError());
+
+        //std::cout << "Repeate recv? (y/n): ";
+        //std::cin >> ch;
+        //if (ch != 'y') flag = false;
+
+    } while (flag); // while (iResult > 0);
+
+    // cleanup
+    closesocket(ConnectSocket);
+    WSACleanup();
+    
+    
+    return 0;*/
+}
